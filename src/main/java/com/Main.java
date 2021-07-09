@@ -12,7 +12,7 @@ public class Main {
     while (true) {
         Scanner s = new Scanner(System.in);
         System.out.print(calc);
-        String input = s.next();
+        String input = s.nextLine();
         Interpreter interpreter = new Interpreter(input);
         int result = interpreter.expression();
         System.out.println(calc + result);

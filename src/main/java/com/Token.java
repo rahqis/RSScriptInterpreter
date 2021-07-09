@@ -2,21 +2,26 @@ package main.java.com;
 
 import java.util.EnumMap;
 import java.util.EnumSet;
+import java.util.LinkedList;
 
 public class Token {
-  private String INTEGER = "INTEGER"; // 0
-  private String PLUS = "PLUS";   // 1
-  private String EOF = "EOF";   // 2
 
-  protected enum Types {INTEGER, PLUS, EOF};
+
+  protected enum Types {
+    INTEGER,
+    PLUS,
+    MINUS,
+    EOF
+  };
 
   private Types type;
-  private Character value;
+  private LinkedList<Character> value;
 
-  public Token(Types type, Character value) {
+  public Token(Types type, LinkedList<Character> value) {
     this(type);
-    this.value = value.charValue();
+    this.value = value;
   }
+
 
   public Token(Types type) {
     this.type = type;
@@ -24,8 +29,13 @@ public class Token {
 
   public Types getType() {return this.type;}
 
-  public Character getValue() {
-    return this.value;}
+  public String getValue() {
+    String results = "";
+    for(Character c: this.value)
+      results+= c;
+
+    return results;
+  }
 
   public String toString() {
     return "Token("+ this.getType().toString() + ", " + this.getValue() + ")";
