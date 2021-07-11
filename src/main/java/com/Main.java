@@ -6,7 +6,7 @@ import main.java.com.Interpreter;
 
 public class Main {
 
-  public static String calc = "calc> ";
+  public static String calc = "RSScript> ";
 
   public static void main(String args[]) {
     while (true) {

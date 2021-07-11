@@ -71,6 +71,16 @@ public class Interpreter {
       token = new Token(Types.MINUS, concatTokens);
       advancePos();
       return token;
+    } else if(this.currentChar.equals('*')) {
+      concatTokens.add(this.currentChar);
+      token = new Token(Types.MULTIPLY, concatTokens);
+      advancePos();
+      return token;
+    } else if (this.currentChar.equals('/')) {
+      concatTokens.add(this.currentChar);
+      token = new Token(Types.DIVIDE, concatTokens);
+      advancePos();
+      return token;
     } else
       parseError();
 
@@ -84,27 +94,56 @@ public class Interpreter {
       parseError();
   }
 
+  public Integer term(){
+
+    Token temp = this.currentToken;
+    eatToken(Types.INTEGER);
+    return Integer.parseInt(temp.getValue());
+  }
+
   public int expression() {
     currentToken = nextToken();
+    int result = term();
 
-    Token left = this.currentToken;
-    eatToken(Types.INTEGER);
+//    Token left = this.currentToken;
+//    eatToken(Types.INTEGER);
+//
+//    Token operation = this.currentToken;
+//    if(this.currentToken.getType().equals(Types.PLUS))
+//      eatToken(Types.PLUS);
+//    else if(this.currentToken.getType().equals(Types.MINUS))
+//      eatToken(Types.MINUS);
+//
+//    Token right = this.currentToken;
+//    eatToken(Types.INTEGER);
+//    int leftValue = Integer.parseInt(left.getValue());
+//    int rightValue = Integer.parseInt(right.getValue());
+//    int result = 0;
+//    if(operation.getType().equals(Types.PLUS))
+//      result = leftValue + rightValue;
+//    else if (operation.getType().equals(Types.MINUS))
+//      result = leftValue - rightValue;
 
-    Token operation = this.currentToken;
-    if(this.currentToken.getType().equals(Types.PLUS))
-      eatToken(Types.PLUS);
-    else if(this.currentToken.getType().equals(Types.MINUS))
-      eatToken(Types.MINUS);
+    while (currentToken.getType().equals(Types.MINUS)||currentToken.getType().equals(Types.PLUS)
+        ||currentToken.getType().equals(Types.MULTIPLY)||currentToken.getType().equals(Types.DIVIDE)) {
 
-    Token right = this.currentToken;
-    eatToken(Types.INTEGER);
-    int leftValue = Integer.parseInt(left.getValue());
-    int rightValue = Integer.parseInt(right.getValue());
-    int result = 0;
-    if(operation.getType().equals(Types.PLUS))
-      result = leftValue + rightValue;
-    else if (operation.getType().equals(Types.MINUS))
-      result = leftValue - rightValue;
+      Token tempTok = this.currentToken;
+      if (tempTok.getType().equals(Types.PLUS)) {
+        eatToken(Types.PLUS);
+        result = result + term();
+      } else if (tempTok.getType().equals(Types.MINUS)) {
+        eatToken(Types.MINUS);
+        result = result - term();
+      } else if (tempTok.getType().equals(Types.MULTIPLY)) {
+        eatToken(Types.MULTIPLY);
+        result = result * term();
+      } else if (tempTok.getType().equals(Types.DIVIDE)) {
+        eatToken(Types.DIVIDE);
+        result = result / term();
+      }
+    }
+
+
 
     return result;
   }
