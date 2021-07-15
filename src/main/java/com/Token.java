@@ -11,8 +11,10 @@ public class Token {
     INTEGER,
     PLUS,
     MINUS,
-    MULTIPLY,
-    DIVIDE,
+    MULT,
+    DIV,
+    LPAR,
+    RPAR,
     EOF
   };
 

@@ -13,7 +13,7 @@ public class Main {
         Scanner s = new Scanner(System.in);
         System.out.print(calc);
         String input = s.nextLine();
-        Interpreter interpreter = new Interpreter(input);
+        Interpreter interpreter = new Interpreter(new Lexer(input));
         int result = interpreter.expression();
         System.out.println(calc + result);
     }
