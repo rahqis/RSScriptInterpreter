@@ -1,7 +1,5 @@
 package main.java.com;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import main.java.com.Token.Types;
 
 public class Interpreter {
@@ -24,8 +22,17 @@ public class Interpreter {
   public Integer factor(){
 
     Token temp = this.currentToken;
-    eatToken(Types.INTEGER);
-    return Integer.parseInt(temp.getValue());
+    if (temp.getType().equals(Types.INTEGER)) {
+      eatToken(Types.INTEGER);
+      return Integer.parseInt(temp.getValue());
+    } else if(temp.getType().equals(Types.LPAR)) {
+      eatToken(Types.LPAR);
+      int result = expression();
+      eatToken(Types.RPAR);
+      return result;
+    }
+
+    return -1;
   }
 
   public Integer term(){
@@ -49,7 +56,6 @@ public class Interpreter {
     int result = term();
 
     while (currentToken.getType().equals(Types.MINUS)||currentToken.getType().equals(Types.PLUS)) {
-
       Token tempTok = this.currentToken;
       if (tempTok.getType().equals(Types.PLUS)) {
         eatToken(Types.PLUS);

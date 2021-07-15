@@ -81,7 +81,17 @@ public class Lexer {
       token = new Token(Types.DIV, concatTokens);
       advancePos();
       return token;
-    } else
+    } else if (this.currentChar.equals('(')) {
+      concatTokens.add(this.currentChar);
+      token = new Token(Types.LPAR, concatTokens);
+      advancePos();
+      return token;
+    } else if (this.currentChar.equals(')')) {
+      concatTokens.add(this.currentChar);
+      token = new Token(Types.RPAR, concatTokens);
+      advancePos();
+      return token;
+    }
       parseError();
 
     return token;
